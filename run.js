@@ -20,8 +20,14 @@ function checkMotion() {
 
   busy = true;
 
-  client.sensors.getById(35)
-    .then(sensor => {
+  Promise.all([
+    client.sensors.getById(35),
+    client.sensors.getById(32)
+  ])
+    .then(result => {
+      let sensor = result[0];
+      let tmpSensor = result[1];
+
       let changed    = moment(`${sensor.state.lastUpdated}Z`);
       let now        = moment();
       let difference = now.diff(changed, 'seconds');
@@ -30,8 +36,9 @@ function checkMotion() {
         lastChanged = changed.format();
 
         let currentTime = moment().format('h:mm a');
+        let temperature = parseInt(tmpSensor.state.temperature * 1.8 + 32);
 
-        return say.speak(`Welcome to the lab. The time is ${currentTime}.. Your access has been logged.`, "Samantha", 1.0, () => {
+        return say.speak(`Welcome visitor. The current time is ${currentTime}.. Your office temperature is ${temperature} freedom units. Your access has been noted.`, "Samantha", 1.0, () => {
           busy = false;
         });
       }
@@ -39,6 +46,7 @@ function checkMotion() {
       busy = false;
     })
     .catch(err => {
+      console.log(err);
       busy = false;
     });
 }
