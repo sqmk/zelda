@@ -4,7 +4,6 @@ let huejay = require('huejay');
 let moment = require('moment-timezone');
 let say    = require('say');
 
-
 let client = new huejay.Client({
   host: "10.0.1.2",
   username: "06aEKvJIr3o-9m3yLE-5Jm2S9K0nY8a1MpiA9afx"
@@ -38,7 +37,7 @@ function checkMotion() {
         let currentTime = moment().format('h:mm a');
         let temperature = parseInt(tmpSensor.state.temperature * 1.8 + 32);
 
-        return say.speak(`Welcome visitor. The current time is ${currentTime}.. Your office temperature is ${temperature} freedom units. Your access has been noted.`, "Samantha", 1.0, () => {
+        return say.speak(`Welcome visitor. The current time is ${currentTime}.. You are currently experiencing a thermal temperature of ${temperature} freedom units. Your access to this office has been noted. . . Have a nice day, you stupid bitch.`, "Samantha", 1.0, () => {
           busy = false;
         });
       }
